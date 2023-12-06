@@ -1,5 +1,17 @@
 # TaskCraft
 <img src="https://github.com/YusufsKaygusuz/TaskCraft/assets/86704802/8fdde664-cd74-4dc1-91cb-016e7103320c" alt="TaskCraft" width="250"/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<img src="https://github.com/YusufsKaygusuz/TaskCraft/assets/86704802/89b08d7a-823d-43a3-97be-8fd6cae879e4" alt="TaskCraft" width="250"/>
+
+
+
+
+
+<p align="center">
+    <img src="https://img.shields.io/badge/made%20with-Dart-blue" alt="Made with Dart">
+    <img src="https://img.shields.io/badge/made%20with-Flutter-blue" alt="Made with Flutter">
+</p>
+
 
 # TaskCraft ToDo Uygulaması Dizin Yapısı
 
@@ -57,13 +69,143 @@ static List<ToDo> todoList() {
  ```
  Bu metot, uygulamanın başlangıcında kullanılacak örnek bir görev listesi sağlar. Her bir görev, önceden belirlenmiş bir kimlik, metin ve tamamlanma durumu ile temsil edilir.
 
+<h2>home.dart</h2>
+Ana Ekran (Home Widget)
+Ana ekran, kullanıcının ToDo listesini görüntüleyebileceği, yeni görevler ekleyebileceği ve mevcut görevleri işaretleyip silebileceği bir arayüz sunar. Ekran, Scaffold widget'ı içinde düzenlenmiştir.
+
+<h3>ToDo Listesi ve Arama:</h3>
+
+ToDo sınıfından oluşturulan todoList değişkeni, varsayılan görev listesini içerir.
+_foundToDo değişkeni, kullanıcının arama yapması durumunda gösterilecek görev listesini içerir.
+searchBox metodu, kullanıcının görevleri aramasını sağlayan bir arama kutusunu oluşturur.
+
+ ```dart
+Widget searchBox() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: TextField(
+        onChanged: (value) => _runFilter(value),
+        decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(0),
+            prefixIcon: Icon(
+              Icons.search,
+              color: toDoBlack,
+              size: 20,
+            ),
+            prefixIconConstraints: BoxConstraints(
+              maxHeight: 20,
+              minWidth: 30,
+            ),
+            border: InputBorder.none,
+            hintText: 'Search',
+            hintStyle: TextStyle(color: toDoGtey)),
+      ),
+    );
+  }
+ ```
+
+<h3>Görevleri Gösterme ve Yönetme:</h3>
+
+ListView.builder widget'ı kullanılarak görev listesi ekrana yerleştirilir. Görevler, _foundToDo listesinden alınır.
+Her görev, ToDoItem widget'ı içinde gösterilir. Bu widget, bir görevin metni, durumu ve işlem butonları içerir.
+_handleToDoChange metodu, bir görevin durumunu değiştirir (tamamlandı ise tamamlanmamış, tamamlanmamış ise tamamlandı yapar).
+_deleteToDoItem metodu, bir görevi listeden siler.
+Yeni Görev Ekleme:
+
+Bir TextField widget'ı, kullanıcının yeni görev eklemesini sağlar.
++ butonuna basıldığında _addToDoItem metodu çalışır ve yeni görevi listeye ekler.
+Arama Yapma:
+
+searchBox içindeki arama kutusuna her yazıldığında _runFilter metodu çağrılır. Bu metot, girilen anahtar kelimeye göre görevleri filtreler.
+```dart
+void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
+  void _deleteToDoItem(String id)
+  {
+    setState(() {
+      todoList.removeWhere((item) => item.id == id);
+    });
+  }
+
+  void _addToDoItem(String toDo)
+  {
+    setState(() {
+      todoList.add(
+        ToDo(id: DateTime.now().microsecondsSinceEpoch.toString(),
+        todoText: toDo)
+      );
+      _todoController.clear();
+    });
+  }
+
+void _runFilter(String enteredKeyword)
+{
+  List<ToDo> results = [];
+  if(enteredKeyword.isEmpty)
+  {
+    results = todoList;
+  }
+  else{
+    results = todoList
+    .where((item) => item.todoText!
+    .toLowerCase()
+    .contains(enteredKeyword.toLowerCase()))
+    .toList();
+  }
+
+  setState(() {
+    _foundToDo = results;
+  });
+}
+```
+
+<h3>AppBar ve Tema:</h3>
+
+ ```dart
+AppBar _buildAppBar() {
+    return AppBar(
+      backgroundColor: toDoBackGround,
+      elevation: 0,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(
+            Icons.menu,
+            color: toDoBlack,
+            size: 30,
+          ),
+          Container(
+            height: 40,
+            width: 40,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset('assets/images/avatar.JPG'),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+ ```
+
+AppBar, uygulama başlığını ve kullanıcı avatarını içerir.
+Uygulama teması, colors.dart dosyasından alınan renk sabitleriyle belirlenir.
 
 
 
+👨‍💻 Keyifli Kodlamalar! 👩‍💻
 
-
-
-
-
-
-
+<h3 align="center">Connect with me:</h3>
+<p align="center">
+<a href="https://www.linkedin.com/in/yusuf-sami-kaygusuz-69b992230" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="yusuf-kaygusuz-69b992230" height="30" width="40" /></a>
+<a href="https://instagram.com/yusufskaygusuz" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="yusufskaygusuz" height="30" width="40" /></a>
+<a href="https://medium.com/@yusufskaygusuz" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/medium.svg" alt="@yusufskaygusuz" height="30" width="40" /></a>
+</p>
